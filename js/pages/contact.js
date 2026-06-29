@@ -112,14 +112,14 @@ function initContactPage() {
     }
 
     // Store message (could be sent via email API in production)
-    const messages = DB.get('pankaj_messages') || [];
+    const messages = DB.get('shahi_messages') || [];
     messages.push({
       id: Utils.uid(),
       name,
       message,
       createdAt: new Date().toISOString()
     });
-    DB.set('pankaj_messages', messages);
+    DB.set('shahi_messages', messages);
 
     Utils.showToast('Message sent successfully! We\'ll get back to you soon.', '✓');
     form.reset();

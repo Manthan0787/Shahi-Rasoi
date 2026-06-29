@@ -5,14 +5,14 @@
 const DB = {
   // ---- Keys ----
   KEYS: {
-    MENU: 'pankaj_menu',
-    RESERVATIONS: 'pankaj_reservations',
-    EVENTS: 'pankaj_events',
-    GALLERY: 'pankaj_gallery',
-    CONTACT: 'pankaj_contact',
-    SETTINGS: 'pankaj_settings',
-    ADMIN_AUTH: 'pankaj_admin_auth',
-    THEME: 'pankaj_theme'
+    MENU: 'shahi_menu',
+    RESERVATIONS: 'shahi_reservations',
+    EVENTS: 'shahi_events',
+    GALLERY: 'shahi_gallery',
+    CONTACT: 'shahi_contact',
+    SETTINGS: 'shahi_settings',
+    ADMIN_AUTH: 'shahi_admin_auth',
+    THEME: 'shahi_theme'
   },
 
   // ---- LocalStorage Helpers ----
@@ -45,6 +45,20 @@ const DB = {
     // Only seed if data doesn't exist yet
     if (!this.get(this.KEYS.MENU)) {
       this.set(this.KEYS.MENU, DEFAULT_DATA.menu);
+    } else {
+      // Update missing or mismatched images for existing default items
+      const storedMenu = this.get(this.KEYS.MENU);
+      let updated = false;
+      storedMenu.forEach(item => {
+        const defaultItem = DEFAULT_DATA.menu.find(d => d.id === item.id);
+        if (defaultItem && item.image !== defaultItem.image) {
+          item.image = defaultItem.image;
+          updated = true;
+        }
+      });
+      if (updated) {
+        this.set(this.KEYS.MENU, storedMenu);
+      }
     }
     if (!this.get(this.KEYS.RESERVATIONS)) {
       this.set(this.KEYS.RESERVATIONS, []);
@@ -118,34 +132,34 @@ const DB = {
 const DEFAULT_DATA = {
   menu: [
     // Starters
-    { id: '1', name: 'Veg Manchurian', category: 'Starters', price: '₹ 180', description: 'Crispy vegetable balls tossed in tangy Indo-Chinese Manchurian sauce', image: '' },
-    { id: '2', name: 'Paneer Chilli', category: 'Starters', price: '₹ 220', description: 'Crispy paneer cubes with bell peppers in spicy chilli sauce', image: '' },
-    { id: '3', name: 'Crispy Corn', category: 'Starters', price: '₹ 160', description: 'Golden fried corn kernels tossed with aromatic spices', image: '' },
-    { id: '4', name: 'Spring Rolls', category: 'Starters', price: '₹ 150', description: 'Crispy rolls stuffed with seasoned vegetables and served with sweet chilli dip', image: '' },
+    { id: '1', name: 'Veg Manchurian', category: 'Starters', price: '₹ 180', description: 'Crispy vegetable balls tossed in tangy Indo-Chinese Manchurian sauce', image: 'assets/images/food-starters.png' },
+    { id: '2', name: 'Paneer Chilli', category: 'Starters', price: '₹ 220', description: 'Crispy paneer cubes with bell peppers in spicy chilli sauce', image: 'assets/images/food-paneer-chilli.png' },
+    { id: '3', name: 'Crispy Corn', category: 'Starters', price: '₹ 160', description: 'Golden fried corn kernels tossed with aromatic spices', image: 'assets/images/food-crispy-corn.png' },
+    { id: '4', name: 'Spring Rolls', category: 'Starters', price: '₹ 150', description: 'Crispy rolls stuffed with seasoned vegetables and served with sweet chilli dip', image: 'assets/images/food-spring-rolls.png' },
 
     // Main Course
     { id: '5', name: 'Paneer Butter Masala', category: 'Main Course', price: '₹ 260', description: 'Soft paneer cubes in rich, creamy tomato-butter gravy', image: 'assets/images/food-paneer-masala.png' },
-    { id: '6', name: 'Veg Kolhapuri', category: 'Main Course', price: '₹ 230', description: 'Mixed vegetables in a fiery Kolhapuri masala with authentic spices', image: '' },
-    { id: '7', name: 'Dal Tadka', category: 'Main Course', price: '₹ 180', description: 'Yellow lentils tempered with cumin, garlic, and fresh coriander', image: '' },
-    { id: '8', name: 'Jeera Rice', category: 'Main Course', price: '₹ 150', description: 'Fragrant basmati rice tempered with cumin seeds and ghee', image: '' },
+    { id: '6', name: 'Veg Kolhapuri', category: 'Main Course', price: '₹ 230', description: 'Mixed vegetables in a fiery Kolhapuri masala with authentic spices', image: 'assets/images/food-veg-kolhapuri.png' },
+    { id: '7', name: 'Dal Tadka', category: 'Main Course', price: '₹ 180', description: 'Yellow lentils tempered with cumin, garlic, and fresh coriander', image: 'assets/images/food-dal-tadka.png' },
+    { id: '8', name: 'Jeera Rice', category: 'Main Course', price: '₹ 150', description: 'Fragrant basmati rice tempered with cumin seeds and ghee', image: 'assets/images/food-jeera-rice.png' },
     { id: '9', name: 'Veg Biryani', category: 'Main Course', price: '₹ 220', description: 'Aromatic basmati rice layered with spiced vegetables, saffron, and fried onions', image: 'assets/images/food-biryani.png' },
 
     // Indian Breads
-    { id: '10', name: 'Butter Naan', category: 'Indian Breads', price: '₹ 50', description: 'Soft tandoor-baked naan brushed with butter', image: '' },
-    { id: '11', name: 'Garlic Naan', category: 'Indian Breads', price: '₹ 60', description: 'Naan infused with fresh garlic and coriander', image: '' },
-    { id: '12', name: 'Tandoori Roti', category: 'Indian Breads', price: '₹ 30', description: 'Whole wheat roti baked in traditional clay tandoor', image: '' },
-    { id: '13', name: 'Kulcha', category: 'Indian Breads', price: '₹ 55', description: 'Soft, fluffy bread from the tandoor, lightly buttered', image: '' },
+    { id: '10', name: 'Butter Naan', category: 'Indian Breads', price: '₹ 50', description: 'Soft tandoor-baked naan brushed with butter', image: 'assets/images/bread-butter-naan.png' },
+    { id: '11', name: 'Garlic Naan', category: 'Indian Breads', price: '₹ 60', description: 'Naan infused with fresh garlic and coriander', image: 'assets/images/bread-garlic-naan.png' },
+    { id: '12', name: 'Tandoori Roti', category: 'Indian Breads', price: '₹ 30', description: 'Whole wheat roti baked in traditional clay tandoor', image: 'assets/images/bread-tandoori-roti.png' },
+    { id: '13', name: 'Kulcha', category: 'Indian Breads', price: '₹ 55', description: 'Soft, fluffy bread from the tandoor, lightly buttered', image: 'assets/images/bread-kulcha.png' },
 
     // Desserts
     { id: '14', name: 'Gulab Jamun', category: 'Desserts', price: '₹ 80', description: 'Golden fried milk dumplings soaked in rose-scented sugar syrup', image: 'assets/images/desserts-gulab-jamun.png' },
-    { id: '15', name: 'Ice Cream', category: 'Desserts', price: '₹ 100', description: 'Premium ice cream available in vanilla, chocolate, and mango flavors', image: '' },
-    { id: '16', name: 'Rabdi', category: 'Desserts', price: '₹ 120', description: 'Traditional slow-cooked sweetened condensed milk with cardamom and saffron', image: '' },
+    { id: '15', name: 'Ice Cream', category: 'Desserts', price: '₹ 100', description: 'Premium ice cream available in vanilla, chocolate, and mango flavors', image: 'assets/images/desserts-ice-cream.png' },
+    { id: '16', name: 'Rabdi', category: 'Desserts', price: '₹ 120', description: 'Traditional slow-cooked sweetened condensed milk with cardamom and saffron', image: 'assets/images/desserts-rabdi.png' },
 
     // Beverages
-    { id: '17', name: 'Fresh Lime Soda', category: 'Beverages', price: '₹ 60', description: 'Refreshing lime soda — sweet, salt, or mixed', image: '' },
-    { id: '18', name: 'Soft Drinks', category: 'Beverages', price: '₹ 40', description: 'Chilled carbonated beverages of your choice', image: '' },
-    { id: '19', name: 'Tea', category: 'Beverages', price: '₹ 30', description: 'Hot masala chai brewed with fresh spices and milk', image: '' },
-    { id: '20', name: 'Coffee', category: 'Beverages', price: '₹ 50', description: 'Rich hot coffee — freshly brewed', image: '' }
+    { id: '17', name: 'Fresh Lime Soda', category: 'Beverages', price: '₹ 60', description: 'Refreshing lime soda — sweet, salt, or mixed', image: 'assets/images/beverages-lime-soda.png' },
+    { id: '18', name: 'Soft Drinks', category: 'Beverages', price: '₹ 40', description: 'Chilled carbonated beverages of your choice', image: 'assets/images/beverages-soft-drinks.png' },
+    { id: '19', name: 'Tea', category: 'Beverages', price: '₹ 30', description: 'Hot masala chai brewed with fresh spices and milk', image: 'assets/images/beverages-tea.png' },
+    { id: '20', name: 'Coffee', category: 'Beverages', price: '₹ 50', description: 'Rich hot coffee — freshly brewed', image: 'assets/images/beverages-coffee.png' }
   ],
 
   events: [
